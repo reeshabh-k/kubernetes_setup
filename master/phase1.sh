@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ~/proxy.sh &
+sleep 2
 
 set -e
 
