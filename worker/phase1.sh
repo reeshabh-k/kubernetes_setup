@@ -12,6 +12,10 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
+cat <<EOF > /etc/apt/apt.conf.d/99force-ipv4
+Acquire::ForceIPv4 "true";
+EOF
+
 apt update
 
 apt upgrade -y
