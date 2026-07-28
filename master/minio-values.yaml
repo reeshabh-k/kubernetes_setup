@@ -1,0 +1,32 @@
+# One MinIO pod per worker node, each capped to 4 of that node's 8 cores.
+# replicas must equal the number of worker nodes so distributed mode
+# places exactly one pod on each.
+
+mode: distributed
+replicas: 5
+
+resources:
+  requests:
+    cpu: "4"
+  limits:
+    cpu: "4"
+
+# The master's default control-plane taint already keeps pods off it,
+# so no nodeSelector is needed. This just spreads one pod per worker.
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+            - key: app
+              operator: In
+              values:
+                - minio
+        topologyKey: kubernetes.io/hostname
+
+rootUser: minioadmin
+rootPassword: minioadmin
+
+persistence:
+  enabled: true
+  size: 20Gi

@@ -1,0 +1,36 @@
+# Applied after the Flink Kubernetes Operator is installed (see phase3.sh).
+# One TaskManager pod per worker node, each capped to 4 of that node's 8 cores.
+# Deploy with: kubectl apply -f flink-deployment.yaml
+
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: flink-cluster
+  namespace: flink
+spec:
+  image: flink:1.20
+  flinkVersion: v1_20
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "1"
+  serviceAccount: flink
+  jobManager:
+    resource:
+      cpu: 1
+      memory: "2048m"
+  taskManager:
+    replicas: 5
+    resource:
+      cpu: 4
+      memory: "4096m"
+    podTemplate:
+      spec:
+        affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: component
+                      operator: In
+                      values:
+                        - taskmanager
+                topologyKey: kubernetes.io/hostname
