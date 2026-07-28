@@ -4,7 +4,7 @@ Scripts to set up a Kubernetes cluster on Ubuntu machines behind the IITD proxy.
 
 There are two sets of scripts: `master/` for the master node, and `worker/` for worker nodes.
 
-Each script starts your `~/proxy.sh` script in the background, since most commands here need internet access through the IITD proxy.
+Each script starts `proxy.sh` in the background and waits 2 seconds for it to connect, since most commands here need internet access through the IITD proxy. Some phases run as your normal user and some run via `sudo`, so the scripts resolve the path as `/home/$SUDO_USER/proxy.sh` when run with `sudo`, or `$HOME/proxy.sh` otherwise — either way it expects `proxy.sh` to be in your home directory.
 
 ## Phase 1 - Prepare the node
 

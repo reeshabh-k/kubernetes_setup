@@ -1,6 +1,9 @@
 #!/bin/bash
 
-~/proxy.sh &
+PROXY_SCRIPT="${SUDO_USER:+/home/$SUDO_USER/proxy.sh}"
+PROXY_SCRIPT="${PROXY_SCRIPT:-$HOME/proxy.sh}"
+
+"$PROXY_SCRIPT" &
 sleep 2
 
 set -e
