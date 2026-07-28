@@ -8,8 +8,8 @@ metadata:
   name: flink-cluster
   namespace: flink
 spec:
-  image: flink:1.20
-  flinkVersion: v1_20
+  image: flink:2.0
+  flinkVersion: v2_0
   flinkConfiguration:
     taskmanager.numberOfTaskSlots: "1"
   serviceAccount: flink
