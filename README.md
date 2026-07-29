@@ -38,7 +38,7 @@ If your cluster has a different number of workers or different core counts, upda
 ## Putting it together
 
 1. Run `phase1.sh` then `phase2.sh` on the master.
-2. Run `phase1.sh` then `phase2.sh` on each worker.
+2. On each worker, run `phase1.sh` then `phase2.sh` with `sudo -E` (not plain `sudo`), e.g. `sudo -E ./phase1.sh`. The `-E` keeps your shell's environment variables when switching to root, which `apt` needs here.
 3. On the master, initialize the cluster:
 
    ```
