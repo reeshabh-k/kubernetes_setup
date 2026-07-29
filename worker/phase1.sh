@@ -16,6 +16,11 @@ cat <<EOF > /etc/apt/apt.conf.d/99force-ipv4
 Acquire::ForceIPv4 "true";
 EOF
 
+if [ -f /etc/apt/sources.list.d/ubuntu.sources ]; then
+    sed -i 's|^Signed-By:.*|Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg|' \
+        /etc/apt/sources.list.d/ubuntu.sources
+fi
+
 apt update
 
 apt upgrade -y
