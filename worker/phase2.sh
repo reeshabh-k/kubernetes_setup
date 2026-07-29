@@ -56,11 +56,16 @@ EOF
 
 apt update
 
-apt install -y \
+# Remove holds if the packages are already held
+apt-mark unhold kubelet kubeadm kubectl 2>/dev/null || true
+
+# Install or upgrade Kubernetes packages
+apt install -y --allow-change-held-packages \
 kubelet \
 kubeadm \
 kubectl
 
+# Hold them again
 apt-mark hold kubelet kubeadm kubectl
 
 mkdir -p /etc/systemd/system/containerd.service.d
